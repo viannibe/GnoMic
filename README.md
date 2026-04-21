@@ -6,13 +6,6 @@ Comparative analysis of mutational energy (ΔE) between somatic variants (COSMIC
 
 ---
 
-## Clone and push
-
-```bash
-git clone https://github.com/viannibe/GnoMic.git
-
-
-
 ## Repository structure
 
 ```
