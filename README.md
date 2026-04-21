@@ -13,8 +13,6 @@ git clone https://github.com/viannibe/GnoMic.git
 
 
 
----
-
 ## Repository structure
 
 ```
