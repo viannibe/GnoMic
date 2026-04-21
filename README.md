@@ -86,5 +86,5 @@ python scripts/05_substitution_class.py     # requires parquet rebuilt with --fo
 | `cpg_split/A_exon_cpg_split.png` | KDE split by CpG / non-CpG |
 | `cpg_split/B_exon_noncpg_paired.png` | Per-chromosome scatter + strip (non-CpG exons) |
 | `cpg_split/C_chrom_consistency.png` | All 22 autosomes positive: +0.163 to +0.200 |
-| `driver_passenger/A_driver_passenger_kde.png` | Driver (d=8.4) vs passenger (d=18.4) vs non-coding |
+| `driver_passenger/A_driver_passenger_kde.png` | Driver vs passenger vs non-coding |
 | `substitution_class/A_subst_kde.png` | KDE for each of the 6 SBS substitution classes |
