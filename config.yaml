@@ -1,0 +1,71 @@
+# gnomAD-COSMIC comparison pipeline — clean, reproducible version
+# =================================================================
+# All paths are absolute; slurm/ scripts pass these as CLI arguments.
+# Run order: 01 → 02 → 03 → 04   (02/03/04 can run in parallel after 01)
+
+paths:
+  # Input datasets (read-only, on scratch)
+  gnomad_annotated: /leonardo_work/CNHPC_2116672/gnomAD/processed/annotation_2/merged_annotated.csv.gz
+  # cosmic_full: ANN_TOP_ANNOTATION → region/func_class mapping  (used by step 02)
+  cosmic_full:      /leonardo_work/CNHPC_2116672/COSMIC_v103/processed_ws2/cosmic_full_annotato.csv
+  # cosmic_final: E_wt7/E_mut7 pre-computed + is_coding/is_cpg/in_cgc (used by steps 03/04)
+  cosmic_final:     /leonardo_work/CNHPC_2116672/COSMIC_v103/processed/cosmic_final.tsv
+
+  # Intermediate cache (written by step 01, read by 02/03/04)
+  gnomad_parquet: results/cache/gnomad_corrected.parquet
+
+  # Output dirs
+  results_kde_region:       results/kde_region
+  results_cpg_split:        results/cpg_split
+  results_driver_passenger: results/driver_passenger
+
+analysis:
+  chunksize: 500_000   # rows per CSV chunk
+  dpi: 180             # figure resolution
+  bw_adjust: 0.8       # KDE bandwidth multiplier (Silverman × bw_adjust)
+  autosomes:           # chromosomes to keep
+    - "1"
+    - "2"
+    - "3"
+    - "4"
+    - "5"
+    - "6"
+    - "7"
+    - "8"
+    - "9"
+    - "10"
+    - "11"
+    - "12"
+    - "13"
+    - "14"
+    - "15"
+    - "16"
+    - "17"
+    - "18"
+    - "19"
+    - "20"
+    - "21"
+    - "22"
+
+colors:
+  COSMIC: "#e63946"
+  gnomAD: "#1d3557"
+
+hpc:
+  account:    CNHPC_2116672
+  partition:  boost_usr_prod
+  conda_env:  gnomad_venv
+  conda_base: "$HOME/miniconda3"
+
+# Functional class → genomic region mapping
+# (same as in gnomAD_vi_clean/scripts/09_gnomad_cosmic_comparison.py)
+region_map:
+  missense:      exon
+  synonymous:    exon
+  stop:          exon
+  frameshift:    exon
+  inframe_indel: exon
+  utr:           exon
+  splice:        intron
+  intron:        intron
+  extragenic:    extragenic

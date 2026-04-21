@@ -1,0 +1,25 @@
+# File generati dalla pipeline (non versionare)
+results/cache/*.parquet
+results/kde_region/*.png
+results/kde_region/*.csv
+results/cpg_split/*.png
+results/cpg_split/*.csv
+results/driver_passenger/*.png
+results/driver_passenger/*.csv
+results/substitution_class/*.png
+results/substitution_class/*.tsv
+
+# Logs SLURM
+logs/
+*.out
+*.err
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# Editor
+.vscode/
+.idea/
