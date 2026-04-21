@@ -2,7 +2,7 @@
 
 Comparative analysis of mutational energy (ΔE) between somatic variants (COSMIC v103) and germline variants (gnomAD v4.1).
 
-**Key result**: COSMIC somatic mutations show systematically higher ΔE than gnomAD germline across all genomic regions, substitution classes, and chromosomes (Δµ = +0.178, p = 3×10⁻²⁸, Cohen's d = 18.3 in non-CpG exonic variants).
+**Key result**: COSMIC somatic mutations show systematically higher ΔE than gnomAD germline across all genomic regions, substitution classes, and chromosomes.
 
 ---
 
