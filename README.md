@@ -24,15 +24,26 @@ GnoMic/
 
 ---
 
-## Pipeline
+## Full workflow
 
 ```
-01_build_parquet      gnomAD CSV.gz → parquet cache
-        ↓
-02_kde_region         ΔE by genomic region (exon / intron / extragenic)
-03_cpg_split          CpG vs non-CpG split + per-chromosome paired test
-04_driver_passenger   driver / passenger / non-coding stratification
-05_substitution_class SBS6 substitution class stratification (C>A/G/T, T>A/C/G)
+RAW DATA                    PREPROCESSING (see PREPROCESSING.md)
+--------                    ------------------------------------
+gnomAD v4.1 VCF   →  extract fields, compute 7-mer energies, annotate VEP
+COSMIC v103 VCF   →  filter SNVs, compute 7-mer energies, add driver labels
+                                    ↓
+                           merged_annotated.csv.gz
+                           cosmic_final.tsv
+                           cosmic_full_annotato.csv
+                                    ↓
+                            THIS PIPELINE
+                            -------------
+                    01_build_parquet      CSV.gz → parquet cache
+                            ↓
+                    02_kde_region         ΔE by genomic region
+                    03_cpg_split          CpG vs non-CpG split
+                    04_driver_passenger   driver / passenger stratification
+                    05_substitution_class substitution class stratification
 ```
 
 Steps 02–05 are independent and run in any order after step 01.
@@ -67,24 +78,3 @@ python scripts/05_substitution_class.py     # requires parquet rebuilt with --fo
 
 ---
 
-## Method
-
-**ΔE = E_ref − E_mut = −ln P(WT 7-mer) + ln P(MUT 7-mer)**
-
-- Positive ΔE: mutation moves sequence toward a more common k-mer context
-- Per-chromosome aggregation (n = 22 autosomal means) before statistical testing
-- Paired t-test on 22 chromosomal means; Cohen's d as effect size
-- CpG defined from central dinucleotide of the 7-mer
-
----
-
-## Output
-
-| File | Description |
-|------|-------------|
-| `kde_region/A_kde_region_all.png` | KDE of ΔE by region, COSMIC vs gnomAD |
-| `cpg_split/A_exon_cpg_split.png` | KDE split by CpG / non-CpG |
-| `cpg_split/B_exon_noncpg_paired.png` | Per-chromosome scatter + strip (non-CpG exons) |
-| `cpg_split/C_chrom_consistency.png` | All 22 autosomes positive: +0.163 to +0.200 |
-| `driver_passenger/A_driver_passenger_kde.png` | Driver vs passenger vs non-coding |
-| `substitution_class/A_subst_kde.png` | KDE for each of the 6 SBS substitution classes |
